@@ -1,4 +1,3 @@
-//- Top black menu bar
 .ui.inverted.menu
   .left.menu
     a.item(href='/dashboard')
@@ -13,9 +12,9 @@
       i.sign-in.icon
       | Connexion
 
-    span.item
+    a.item(href='/dashboard')
       i.user.icon
-      | John Doe
+      | #{userName}
     a.item(href='/logout')
       i.sign-out.icon
       | Déconnexion
