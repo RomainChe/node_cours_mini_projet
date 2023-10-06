@@ -1,60 +1,53 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import session from 'express-session';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import mongoose from 'mongoose';
-import User from './models/User.js';
-import Auth from './routes/routes.js'
-
-import route from './routes/routes.js';
-
-// ==========
-// App initialization
-// ==========
+import dotenv from "dotenv";
+import express from "express";
+import session from "express-session";
+import flash from "connect-flash";
+import path from "path";
+import { fileURLToPath } from "url";
+import mongoose from "mongoose";
+import Auth from "./routes/routes.js";
 
 dotenv.config();
-const { APP_HOSTNAME, APP_PORT, NODE_ENV, MONGODB_URI, MONGO_DB_NAME } = process.env;
+const { APP_HOSTNAME, APP_PORT, NODE_ENV, MONGODB_URI } = process.env;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
-app.set('view engine', 'pug');
+app.set("view engine", "pug");
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-  secret: 'votre_secret_key',
-  resave: false,
-  saveUninitialized: true,
-}));
-app.locals.pretty = NODE_ENV !== 'production'; // Indente correctement le HTML envoyé au client (utile en dev, mais inutile en production)
+app.use(
+  session({
+    secret: "votre_secret_key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.locals.pretty = NODE_ENV !== "production";
 
-// ==========
-// App middlewares
-// ==========
+app.use(flash());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res, next) => {
+  res.locals.flash_success = req.flash("success");
+  res.locals.flash_error = req.flash("error");
+  next();
+});
 
-// ==========
-// App routers
-// ==========
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', route);
+app.use("/", Auth);
 
-app.use('/register', Auth);
+app.use("/register", Auth);
 
-// ==========
-// App start
-// ==========
-
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose
+  .connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
-    console.log('Connexion à MongoDB réussie');
+    console.log("Connexion à MongoDB réussie");
   })
   .catch((error) => {
-    console.error('Erreur de connexion à MongoDB :', error);
+    console.error("Erreur de connexion à MongoDB :", error);
   });
 
 app.listen(APP_PORT, () => {

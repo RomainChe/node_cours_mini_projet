@@ -19,3 +19,16 @@ block content
           +field('password', 'password_confirm', 'Confirm password')
           button(type="submit").ui.fluid.large.teal.submit.button
             | Login
+          
+          if flash_success
+          .alert.alert-success
+            each message in flash_success
+              p= message
+              
+          if errorMessage
+            .ui.negative.message
+              p= errorMessage
+            //- +message('success') Success message example
+            //- +message('error') Error message example
+            //- +message('info') Info message example
+            //- +message('warning') Warning message example

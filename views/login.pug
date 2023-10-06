@@ -15,3 +15,12 @@ block content
           +field('password', 'password', 'Password')
           button(type="submit").ui.fluid.large.teal.submit.button
             | Login
+
+        if flash_success
+          .alert.alert-success
+            each message in flash_success
+              p= message
+              
+          if errorMessage
+            .ui.negative.message
+              p= errorMessage

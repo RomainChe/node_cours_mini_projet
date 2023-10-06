@@ -5,16 +5,19 @@
       | Dashboard
 
   .right.menu
-    a.item(href='/register' class='active')
-      i.sign-in.icon
-      | Inscription
-    a.item(href='/login')
-      i.sign-in.icon
-      | Connexion
+    if userName
+      a.item(href='/logout')
+        i.sign-out.icon
+        | Déconnexion
+    else
+      a.item(href='/register' class='active')
+        i.sign-in.icon
+        | Inscription
+      a.item(href='/login')
+        i.sign-in.icon
+        | Connexion
 
-    a.item(href='/dashboard')
-      i.user.icon
-      | #{userName}
-    a.item(href='/logout')
-      i.sign-out.icon
-      | Déconnexion
+    if userName
+      a.item(href='/dashboard')
+        i.user.icon
+        | #{userName}
