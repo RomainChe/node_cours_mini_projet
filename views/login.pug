@@ -1,0 +1,17 @@
+extends layouts/frontend
+
+include includes/_mixins
+
+block head
+
+block content
+  .ui.middle.aligned.center.aligned.grid
+    .sixteen.wide.ten.wide.tablet.seven.wide.computer.column
+      h1 Login
+
+      form.ui.large.form(method="post" action="/login")
+        .ui.segment
+          +field('email', 'email', 'your.email@address.tld')
+          +field('password', 'password', 'Password')
+          button(type="submit").ui.fluid.large.teal.submit.button
+            | Login
