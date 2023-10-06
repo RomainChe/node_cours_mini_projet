@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 import Auth from "./routes/routes.js";
 
 dotenv.config();
-const { APP_HOSTNAME, APP_PORT, NODE_ENV, MONGODB_URI } = process.env;
+const { APP_HOSTNAME, APP_PORT, NODE_ENV, MONGODB_URI, SECRET_KEY } = process.env;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
@@ -17,7 +17,7 @@ app.set("view engine", "pug");
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "votre_secret_key",
+    secret: SECRET_KEY,
     resave: false,
     saveUninitialized: true,
   })

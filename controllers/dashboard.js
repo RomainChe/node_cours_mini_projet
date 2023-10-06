@@ -5,7 +5,7 @@ const getDashboardPage = (req, res) => {
   }
 
   const { firstName, lastName } = req.session.user;
-  req.flash("error", `Bienvenue sur le dashboard !`);
+  req.flash("success", `Bienvenue sur le dashboard !`);
   res.render("dashboard", { userName: `${firstName} ${lastName}` });
 };
 
